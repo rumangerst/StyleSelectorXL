@@ -63,11 +63,20 @@ def read_sdxl_styles():
 def apply_styles(styles, type, prompt):
     try:
 
+        if not prompt:
+            print("[w] Prompt of type " + type + " was null!")
+            prompt = ""
+
         for name in styles:
-            template = available_styles[name][type]
+            template = available_styles[name].get(type, "{prompt}")
+
+            if template is None:
+                print("[w] Fixing null template for " + name)
+                template = "{prompt}"
 
             # Add missing prompt expansion
-            if not "{prompt}" in template:
+            if not ("{prompt}" in template):
+                print("[w] Fixing missing expansion term in template for " + name)
                 template = template + ", {prompt}"
 
             # Replace prompt
@@ -77,6 +86,7 @@ def apply_styles(styles, type, prompt):
 
     except Exception as e:
         print(f"[!] An error occurred in apply_styles: {str(e)}")
+        raise e
 
 
 class StyleSelectorXL(scripts.Script):
@@ -106,7 +116,8 @@ class StyleSelectorXL(scripts.Script):
         return [mode, styles]
 
     def process(self, p, mode, styles):
-        if not mode == "Disable SDXL styles":
+        if mode == "Disable SDXL styles":
+            print("[i] SDXL Styles are disabled.")
             return
 
         # for each image in batch TODO: randomization
@@ -120,8 +131,8 @@ class StyleSelectorXL(scripts.Script):
             p.all_negative_prompts[i] = negativePrompt
             print("[i] SDXL Styles: Negative prompt #" + str(i + 1) + ": " + negativePrompt)
 
-        p.extra_generation_params["sdxl_style_selector_mode"] = mode
-        p.extra_generation_params["sdxl_style_selector_styles"] = styles
+        p.extra_generation_params["SDXL Style Mode"] = mode
+        p.extra_generation_params["SDXL Styles"] = json.dumps(styles)
 
     def after_component(self, component, **kwargs):
         # https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/7456#issuecomment-1414465888 helpfull link
