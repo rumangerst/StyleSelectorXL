@@ -10,16 +10,6 @@ import random
 available_styles = {}
 available_modes = ["Enable SDXL styles", "Disable SDXL styles"] # TODO: Random styles (per processing, per batch), Try all styles
 
-
-def get_json_content(file_path):
-    try:
-        with open(file_path, 'rt', encoding="utf-8") as file:
-            json_data = json.load(file)
-            return json_data
-    except Exception as e:
-        print(f"[!] A Problem occurred: {str(e)}")
-
-
 def read_sdxl_styles_from_json(json_data):
     # Check that data is a list
     if not isinstance(json_data, list):
