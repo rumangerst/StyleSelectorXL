@@ -89,7 +89,7 @@ def apply_styles(styles, type, prompt):
         raise e
 
 
-class StyleSelectorXL(scripts.Script):
+class SDXLStylesPanel(scripts.Script):
     def __init__(self) -> None:
         super().__init__()
         
