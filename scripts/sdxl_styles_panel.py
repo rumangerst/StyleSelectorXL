@@ -55,7 +55,7 @@ def read_sdxl_styles():
                     read_sdxl_styles_from_json(json_data)
 
             except Exception as e:
-                print(f"-> A Problem occurred: {str(e)}")
+                print(f"[!] A Problem occurred: {str(e)}")
 
     print("[i] Loaded " + str(len(available_styles)) + " styles!")
 
@@ -97,16 +97,14 @@ class StyleSelectorXL(scripts.Script):
     read_sdxl_styles()
 
     def title(self):
-        return "Style Selector+ for SDXL 1.0"
+        return "SDXL Multi-Style Selector"
 
     def show(self, is_img2img):
         return scripts.AlwaysVisible
 
     def ui(self, is_img2img):
-        collapsed = not getattr(shared.opts, "enable_styleselector_by_default", True)
-        
         with gr.Group():
-            with gr.Accordion("SDXL Styles", open=not collapsed):
+            with gr.Accordion("SDXL Styles", open=False):
                 with FormRow():
                     with FormColumn(min_width=160):
                         mode = gr.Dropdown(choices=available_modes, value=available_modes[0], multiselect=False, label="Mode selection")
@@ -132,10 +130,10 @@ class StyleSelectorXL(scripts.Script):
             print("[i] SDXL Styles: Negative prompt #" + str(i + 1) + ": " + negativePrompt)
 
         p.extra_generation_params["SDXL Style Mode"] = mode
-        p.extra_generation_params["SDXL Styles"] = json.dumps(styles)
+        p.extra_generation_params["SDXL Styles"] = styles
 
     def after_component(self, component, **kwargs):
-        # https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/7456#issuecomment-1414465888 helpfull link
+        # https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/7456#issuecomment-1414465888 helpful link
         # Find the text2img textbox component
         if kwargs.get("elem_id") == "txt2img_prompt":  # postive prompt textbox
             self.boxx = component
@@ -143,7 +141,7 @@ class StyleSelectorXL(scripts.Script):
         if kwargs.get("elem_id") == "img2img_prompt":  # postive prompt textbox
             self.boxxIMG = component
 
-        # this code below  works aswell, you can send negative prompt text box,provided you change the code a little
+        # this code below  works as well, you can send negative prompt text box,provided you change the code a little
         # switch  self.boxx with  self.neg_prompt_boxTXT  and self.boxxIMG with self.neg_prompt_boxIMG
 
         # if kwargs.get("elem_id") == "txt2img_neg_prompt":
@@ -152,16 +150,16 @@ class StyleSelectorXL(scripts.Script):
             #self.neg_prompt_boxIMG = component
 
 
-def on_ui_settings():
-    section = ("styleselector", "Style Selector")
-    shared.opts.add_option(
-        "enable_styleselector_by_default",
-        shared.OptionInfo(
-            False,
-            "Show Style Selector by default",
-            gr.Checkbox,
-            section=section
-            )
-    )
-
-script_callbacks.on_ui_settings(on_ui_settings)
+# def on_ui_settings():
+#     section = ("styleselector", "Style Selector")
+#     shared.opts.add_option(
+#         "enable_styleselector_by_default",
+#         shared.OptionInfo(
+#             False,
+#             "Show Style Selector by default",
+#             gr.Checkbox,
+#             section=section
+#             )
+#     )
+#
+# script_callbacks.on_ui_settings(on_ui_settings)

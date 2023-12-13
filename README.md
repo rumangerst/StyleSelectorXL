@@ -1,4 +1,4 @@
-## Style Selector for SDXL 1.0
+## SDXL Multi-Style Selector Panel for SD WebUI
 
 This repository contains a Automatic1111 Extension allows users to select and apply different styles to their inputs using SDXL 1.0.
 
@@ -10,7 +10,7 @@ Released positive and negative templates are used to generate stylized prompts. 
 
 Enter this repo's URL in Automatic1111's extension tab "Install from Url":
 
-https://github.com/ahgsql/StyleSelectorXL.git
+https://github.com/rumangerst/sd-webui-sdxl-styles-panel.git
 
 ### Usage
 
@@ -20,8 +20,8 @@ The selected style will be applied to your current prompts.
 
 ### Thanks
 
-Huge thanks for https://github.com/twri/sdxl_prompt_styler as i got style json file's original structure from his repo.
+Based on https://github.com/ahgsql/StyleSelectorXL
 
 ### License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details.
