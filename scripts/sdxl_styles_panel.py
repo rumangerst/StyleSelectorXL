@@ -120,7 +120,7 @@ class SDXLStylesPanel(scripts.Script):
             print("[i] SDXL Styles: Negative prompt #" + str(i + 1) + ": " + negativePrompt)
 
         p.extra_generation_params["SDXL Style Mode"] = mode
-        p.extra_generation_params["SDXL Styles"] = styles
+        p.extra_generation_params["SDXL Styles"] = "+".join(styles)
 
     def after_component(self, component, **kwargs):
         pass
